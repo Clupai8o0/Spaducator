@@ -43,6 +43,17 @@ router.get("/user/:id", async (req, res) => {
   }
 });
 
+router.get("/users", async (req, res) => {
+  try {
+    const users = await User.find({});
+    if (!users) throw new Error("No users came from the database");
+
+    res.status(200).send(resp(true, users));
+  } catch (e) {
+    res.status(500).send(resp(false, e.message))
+  }
+})
+
 router.put("/set/description/:id", async (req, res) => {
   const id = req.params.id;
   const { description } = req.body;
