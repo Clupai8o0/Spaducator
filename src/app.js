@@ -13,10 +13,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(userRouter);
 
-app.get("/", (req, res) => {
-  res.status(200).send(resp(true));
-});
-
 app.get("*", (req, res) => {
   res.status(400).send(resp(false, "The given url does not exist."));
 });
