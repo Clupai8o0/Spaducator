@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const colors = require("colors");
 const Filter = require("bad-words");
 const filter = new Filter();
+const uploadController = require("../controllers/upload");
 
 router.post("/add/user", async (req, res) => {
   const { name, password, description, age, email } = req.body;
@@ -81,5 +82,8 @@ router.put("/set/description/:id", async (req, res) => {
     res.status(500).send(resp(false, e.message));
   }
 });
+
+
+router.post("/upload", uploadController.uploadFile);
 
 module.exports = router;
