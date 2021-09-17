@@ -39,11 +39,6 @@ const userSchema = mongoose.Schema(
         if (!validator.isStrongPassword(value)) throw new Error();
       },
     },
-    id: {
-      type: String,
-      unique: true,
-      trim: true
-    },
     description: {
       type: String,
       trim: true,
