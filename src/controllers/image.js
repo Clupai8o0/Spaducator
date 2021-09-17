@@ -19,25 +19,20 @@ connect.once("open", () => {
   });
 });
 
-imageRouter.route("/image/:filename").get((req, res, next) => {
-  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
-    if (!files[0] || files.length === 0) {
-      // I think it should be a 404 as no files are found
-      return res.status(404).send(resp(false, "No files available"));
-    }
+imageRouter.route('/image/:filename')
+.get((req, res, next) => {
+    gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+        if (!files[0] || files.length === 0) {
+            return res.status(404).send(resp(false,"Not found"));
+        }
 
-    if (
-      files[0].contentType === "image/jpeg" ||
-      files[0].contentType === "image/png" ||
-      files[0].contentType === "image/svg+xml"
-    ) {
-      // render image to browser
-      gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-    } else {
-      // a status 400 which stands for "bad request"
-      res.status(400).send(resp(false, "Not an image"));
-    }
-  });
+        if (files[0].contentType === 'image/jpeg' || files[0].contentType === 'image/png' || files[0].contentType === 'image/svg+xml') {
+            // render image to browser
+            gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+        } else {
+            res.status(400).send(resp("Bad Request , Not an image"));
+        }
+    });
 });
 
 module.exports = imageRouter;
