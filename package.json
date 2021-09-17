@@ -19,7 +19,7 @@
   "keywords": [
     "game"
   ],
-  "author": "Clupai8o0, Dhruv-Coder, FayizTFluke",
+  "author": "Clupai8o0, Dhruv-Coder, FazeTFluke",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Clupai8o0/space-educator/issues"
@@ -39,6 +39,7 @@
     "validator": "^13.6.0"
   },
   "devDependencies": {
+    "dotenv": "^10.0.0",
     "env-cmd": "^10.1.0",
     "jest": "^27.1.1",
     "nodemon": "^2.0.12",
