@@ -15,8 +15,8 @@ const storage = new GridFsStorage({
       name.slice(name.length - 3, name.length) === "jpg" ||
       name.slice(name.length - 3, name.length) === "png"
     )
-      concat = 3;
-    else if (name.slice(name.length - 4, name.length) === "jpeg") concat = 4;
+      concat = 4;
+    else if (name.slice(name.length - 4, name.length) === "jpeg") concat = 5;
 
     if (match.indexOf(file.mimetype) === -1) {
       // const filename = `${Date.now()}-spaducator-${file.originalname}`;

@@ -30,7 +30,7 @@ imageRouter.route('/image/:filename')
             // render image to browser
             gfs.openDownloadStreamByName(req.params.filename).pipe(res);
         } else {
-            res.status(400).send(resp("Bad Request , Not an image"));
+            res.status(400).send(resp(false , "Not an image"));
         }
     });
 });
