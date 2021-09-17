@@ -6,12 +6,14 @@ const { resp } = require("./helper/response");
 require("./db/mongoose.js");
 
 const userRouter = require("./routers/user");
+const imgRouter = require("./controllers/image");
 
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 app.use(userRouter);
+app.use(imgRouter);
 
 app.get("*", (req, res) => {
   res.status(400).send(resp(false, "The given url does not exist."));
