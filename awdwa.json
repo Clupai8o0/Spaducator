@@ -1,0 +1,41 @@
+{
+    "name": "",
+    "description": "",
+    "img": "", 
+    "points": 0, 
+    "players": [
+      {
+        "name": "'Clupai'",
+        "id": "614429b3723b5b38bc5810f9",
+        "score": 100
+      }
+    ],
+    "questions": [
+      {
+        "points": 40,
+        "question": "Seema ma'am",
+        "answer": "Seema nuts",
+        "explanation": "deez nuts", 
+        "hint": [
+          "Life suks",
+          "life gives u lemons"
+        ]
+      }
+    ],
+    "scenes": [
+      {
+        "name": "Scene-1",
+        "description": "Something something", 
+        "background": "fileName",
+        "sceneObjects": [
+          {
+            "name": "Sun",
+            "id": "00000",
+            "type": "hover",
+            "information": "Something something",
+            "disabled": false
+          }
+        ]
+      }
+    ]
+  }

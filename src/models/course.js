@@ -98,10 +98,6 @@ const new_course = new mongoose.Schema({
     type: String,
     required: true,
   },
-  title: {
-    type: String,
-    required: true,
-  },
   img: {
     type: String,
     required: true,
@@ -116,7 +112,7 @@ const new_course = new mongoose.Schema({
     },
     required: true,
   },
-  question: {
+  questions: {
     type: {new_questions},
     required: true,
   },
