@@ -20,4 +20,10 @@ app.get("*", (req, res) => {
   res.status(400).send(resp(false, "The given url does not exist."));
 });
 
+//! ignore me
+//* just trying to test some code
+app.post("/test", async (req, res) => {
+  res.status(200).send(resp(true, req.body));
+})
+
 module.exports = app;
