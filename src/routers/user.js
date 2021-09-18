@@ -2,12 +2,10 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const { resp } = require("../helper/response");
-const bcrypt = require("bcrypt");
 const colors = require("colors");
 const Filter = require("bad-words");
 const filter = new Filter();
 const auth = require("../middleware/auth");
-const uploadController = require("../controllers/upload");
 
 router.post("/add/user", async (req, res) => {
   const { name, password, description, age, email } = req.body;
@@ -75,8 +73,5 @@ router.delete("/delete/user/:id", auth, async (req, res) => {
     res.status(500).send(resp(false, err.message));
   }
 });
-
-
-router.post("/upload", uploadController.uploadFile);
 
 module.exports = router;
