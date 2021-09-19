@@ -6,6 +6,8 @@ const colors = require("colors");
 const Filter = require("bad-words");
 const filter = new Filter();
 const auth = require("../middleware/auth");
+const validator = require("validator");
+const bcrypt = require("bcrypt");
 
 router.post("/add/user", async (req, res) => {
   const { name, password, description, age, email } = req.body;
@@ -23,6 +25,29 @@ router.post("/add/user", async (req, res) => {
     res.status(500).send(resp(false, e.message));
   }
 });
+
+router.post("/login", async (req, res) => {
+  //* by user id i mean email or username
+  const { userId, password } = req.body;
+  console.log(colors.blue(userId, password))
+  try {
+    if (!userId || !password) throw new Error("Missing parameter")
+
+    let user;
+    if (validator.isEmail(userId)) {
+      user = await User.findOne({ email: userId })
+    } else {
+      user = await User.findOne({ name: userId })
+    }
+
+    if (!user) throw new Error("Could not find user");
+
+    if (!bcrypt.compare(password, user.password)) res.status(400).send(resp(false, "Wrong password"));
+    res.status(200).send(resp(true, user))
+  } catch (e) {
+    res.status(500).send(resp(false, e.message));
+  }
+})
 
 router.get("/user/:id", auth, async (req, res) => {
   const id = req.params.id;
