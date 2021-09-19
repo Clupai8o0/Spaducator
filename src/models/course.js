@@ -1,27 +1,40 @@
 const mongoose = require("mongoose");
-const express = require("express");
 const Filter = require("bad-words");
+const filter = new Filter();
 
-const new_players = new mongoose.Schema({
+const Player = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    // trim: true,
+    lowercase: true,
+    unique: true
   },
   id: {
     type: String,
     required: true,
+    unique: true,
+    trim: true
   },
   score: {
     type: Number,
-    required: true,
+    default: 0,
   },
 });
 
-const new_hints = new mongoose.Schema({
-  type: String,
+const Hint = new mongoose.Schema({
+  hint: {
+    type: String,
+    trim: true,
+    unique: true,
+    validate: (value) => {
+      if (filter.isProfane(value))
+        throw new Error("Hint contains profane language");
+    },
+  },
 });
 
-const new_questions = new mongoose.Schema({
+const Question = new mongoose.Schema({
   points: {
     type: Number,
     required: true,
@@ -29,74 +42,106 @@ const new_questions = new mongoose.Schema({
   question: {
     type: String,
     required: true,
+    trim: true,
+    unique: true,
+    validate: (value) => {
+      if (filter.isProfane(value))
+        throw new Error("Question contains profane language");
+    },
   },
   answer: {
     type: String,
     required: true,
+    trim: true,
+    validate: (value) => {
+      if (filter.isProfane(value))
+        throw new Error("Answer contains profane language");
+    },
   },
   explanation: {
     type: String,
+    trim: true,
+    validate: (value) => {
+      if (filter.isProfane(value))
+        throw new Error("Explanation contains profane language");
+    },
   },
-  hint: {
-    type: [new_hints],
-    required: true,
-  },
+  hints: [
+    {
+      type: Hint
+    }
+  ],
 });
 
-const new_sceneObjects = new mongoose.Schema({
+const SceneObject = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-  },
-  id: {
-    type: Number,
-    required: true,
+    trim: true,
+    lowercase: true,
+    unique: true
   },
   type: {
     type: String,
     required: true,
+    trim: true,
+    validate: (value) => {
+      const types = ["hover", "click", "drag", "collide"];
+      for (let i = 0; i < types.length; i++) {
+        if (value.toLowerCase() === types) {
+          return;
+        }
+      }
+      throw new Error(
+        `SceneObject must be of type Hover, Click, Drag or Collide`
+      );
+    },
   },
   information: {
     type: String,
     required: true,
+    trim: true,
+    validate: (value) => {
+      if (filter.isProfane(value))
+        throw new Error("SceneObject information contains profane language");
+    },
   },
   disabled: {
     type: Boolean,
-    required: true,
+    default: false
   },
-  // contact : {
-  //     type:,
-  //     required:,
-  // },
-});
-
-const new_scenes = new mongoose.Schema({
-  name: {
+  contact : {
     type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-    validate: (value) => {
-      if (Filter.isProfane(value))
-        throw new Error("Description has profane language");
-    },
-  },
-  filename: {
-    type: String,
-    required: true,
-  },
-  sceneObjects: {
-    type: [new_sceneObjects],
-    required: true,
+    default: null
   },
 });
 
-const new_course = new mongoose.Schema({
+const Scene = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    lowercase: true,
+    trim: true,
+    unique: true
+  },
+  background: {
+    type: String,
+    required: true,
+  },
+  sceneObjects: [
+    {
+      type: SceneObject
+    }
+  ],
+});
+
+const CourseSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true,
   },
   img: {
     type: String,
@@ -106,20 +151,26 @@ const new_course = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  players: {
-    type: {
-        new_players
+  players: [
+    {
+      type: Player,
+      required: true,
     },
-    required: true,
-  },
-  questions: {
-    type: {new_questions},
-    required: true,
-  },
-  scenes: {
-    type: {new_scenes},
-    required: true,
-  },
+  ],
+  questions: [
+    {
+      type: Question,
+      required: true,
+    },
+  ],
+  scenes: [
+    {
+      type: Scene,
+      required: true
+    }
+  ],
 });
 
-module.exports = mongoose.model("new_course", new_course);
+const course = mongoose.model("Course", CourseSchema);
+
+module.exports = course;
