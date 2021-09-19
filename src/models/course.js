@@ -114,6 +114,18 @@ const SceneObject = new mongoose.Schema({
     type: String,
     default: null
   },
+  transform: {
+    x: {
+      type: Number,
+    },
+    y: {
+      type: Number
+    }
+  },
+  img: {
+    type: string,
+    required: true
+  }
 });
 
 const Scene = new mongoose.Schema({

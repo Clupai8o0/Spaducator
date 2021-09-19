@@ -129,7 +129,9 @@ router.put("/course/add/scene/:id", async (req, res) => {
         !sceneObjects[0].type ||
         !sceneObjects[0].information ||
         sceneObjects[0].disabled == null ||
-        sceneObjects[0].contact == null
+        sceneObjects[0].contact == null ||
+        !sceneObjects[0].transform || 
+        !sceneObjects[0].img
       )
         throw new Error("SceneObject is missing some parameter");
     }
