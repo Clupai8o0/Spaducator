@@ -7,13 +7,15 @@ const { resp } = require("./helper/response");
 require("./db/mongoose.js");
 
 const userRouter = require("./routers/user");
-const imgRouter = require("./controllers/image");
+const imgController = require("./controllers/image");
+const imgRouter = require("./routers/image");
 const courseRouter = require("./routers/course");
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(userRouter);
 app.use(imgRouter);
+app.use(imgController);
 app.use(courseRouter);
 
 app.get("*", (req, res) => {
